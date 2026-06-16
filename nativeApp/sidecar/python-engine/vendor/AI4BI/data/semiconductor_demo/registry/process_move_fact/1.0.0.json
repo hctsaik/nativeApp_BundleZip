@@ -1,0 +1,492 @@
+{
+  "block_id": "process_move_fact",
+  "block_type": "fact",
+  "grain": "one completed process step movement per wafer, uniquely identified by move_id",
+  "version": "1.0.0",
+  "description": "Wafer process movement event fact with denormalized labels for current single-block chart execution.",
+  "block_lifecycle": "validated",
+  "primary_keys": [
+    "move_id"
+  ],
+  "columns": [
+    {
+      "name": "move_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "event_date",
+      "data_type": "date",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "lot_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "product_family",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "wafer_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "step_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "step_name",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "tool_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "tool_group",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "foup_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "queue_time_hr",
+      "data_type": "float",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "process_time_min",
+      "data_type": "float",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "move_count",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "rework_flag",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    }
+  ],
+  "metrics": [
+    {
+      "name": "move_count",
+      "formula": "SUM(move_count)",
+      "disaggregation_method": "sum",
+      "unit": "moves",
+      "description": null
+    },
+    {
+      "name": "queue_time_hr",
+      "formula": "AVG(queue_time_hr)",
+      "disaggregation_method": "average",
+      "unit": "hours",
+      "description": null
+    },
+    {
+      "name": "process_time_min",
+      "formula": "AVG(process_time_min)",
+      "disaggregation_method": "average",
+      "unit": "minutes",
+      "description": null
+    }
+  ],
+  "relationships": [
+    {
+      "target_block_id": "calendar_dim",
+      "allowed_join_keys": [
+        "event_date"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one date lookup"
+    },
+    {
+      "target_block_id": "lot_dim",
+      "allowed_join_keys": [
+        "lot_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one lot lookup"
+    },
+    {
+      "target_block_id": "wafer_dim",
+      "allowed_join_keys": [
+        "wafer_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one wafer lookup"
+    },
+    {
+      "target_block_id": "tool_dim",
+      "allowed_join_keys": [
+        "tool_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one tool lookup"
+    },
+    {
+      "target_block_id": "process_step_dim",
+      "allowed_join_keys": [
+        "step_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one step lookup"
+    },
+    {
+      "target_block_id": "foup_dim",
+      "allowed_join_keys": [
+        "foup_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one event-time carrier lookup"
+    }
+  ],
+  "policy": {
+    "data_classification": "internal",
+    "row_filter_expr": null,
+    "allowed_roles": [
+      "engineer",
+      "manager",
+      "data_admin"
+    ]
+  },
+  "data_source": {
+    "source_type": "inline",
+    "records": [
+      {
+        "move_id": "M001",
+        "event_date": "2026-05-01",
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "wafer_id": "W1001-01",
+        "step_id": "PHOTO",
+        "step_name": "Lithography",
+        "tool_id": "PHOTO-01",
+        "tool_group": "PHOTO",
+        "foup_id": "FOUP-01",
+        "queue_time_hr": 1.0,
+        "process_time_min": 42.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M002",
+        "event_date": "2026-05-01",
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "wafer_id": "W1001-02",
+        "step_id": "PHOTO",
+        "step_name": "Lithography",
+        "tool_id": "PHOTO-01",
+        "tool_group": "PHOTO",
+        "foup_id": "FOUP-01",
+        "queue_time_hr": 1.5,
+        "process_time_min": 43.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M003",
+        "event_date": "2026-05-02",
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "wafer_id": "W1002-01",
+        "step_id": "PHOTO",
+        "step_name": "Lithography",
+        "tool_id": "PHOTO-02",
+        "tool_group": "PHOTO",
+        "foup_id": "FOUP-02",
+        "queue_time_hr": 1.0,
+        "process_time_min": 41.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M004",
+        "event_date": "2026-05-02",
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "wafer_id": "W1002-02",
+        "step_id": "PHOTO",
+        "step_name": "Lithography",
+        "tool_id": "PHOTO-02",
+        "tool_group": "PHOTO",
+        "foup_id": "FOUP-02",
+        "queue_time_hr": 1.0,
+        "process_time_min": 41.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M005",
+        "event_date": "2026-05-03",
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "wafer_id": "W1003-01",
+        "step_id": "PHOTO",
+        "step_name": "Lithography",
+        "tool_id": "PHOTO-02",
+        "tool_group": "PHOTO",
+        "foup_id": "FOUP-03",
+        "queue_time_hr": 2.0,
+        "process_time_min": 44.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M006",
+        "event_date": "2026-05-03",
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "wafer_id": "W1003-02",
+        "step_id": "PHOTO",
+        "step_name": "Lithography",
+        "tool_id": "PHOTO-02",
+        "tool_group": "PHOTO",
+        "foup_id": "FOUP-03",
+        "queue_time_hr": 1.5,
+        "process_time_min": 44.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M007",
+        "event_date": "2026-05-02",
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "wafer_id": "W1001-01",
+        "step_id": "ETCH",
+        "step_name": "Etching",
+        "tool_id": "ETCH-01",
+        "tool_group": "ETCH",
+        "foup_id": "FOUP-01",
+        "queue_time_hr": 1.5,
+        "process_time_min": 30.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M008",
+        "event_date": "2026-05-02",
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "wafer_id": "W1001-02",
+        "step_id": "ETCH",
+        "step_name": "Etching",
+        "tool_id": "ETCH-01",
+        "tool_group": "ETCH",
+        "foup_id": "FOUP-01",
+        "queue_time_hr": 2.0,
+        "process_time_min": 31.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M009",
+        "event_date": "2026-05-03",
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "wafer_id": "W1002-01",
+        "step_id": "ETCH",
+        "step_name": "Etching",
+        "tool_id": "ETCH-01",
+        "tool_group": "ETCH",
+        "foup_id": "FOUP-02",
+        "queue_time_hr": 2.5,
+        "process_time_min": 33.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M010",
+        "event_date": "2026-05-03",
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "wafer_id": "W1002-02",
+        "step_id": "ETCH",
+        "step_name": "Etching",
+        "tool_id": "ETCH-01",
+        "tool_group": "ETCH",
+        "foup_id": "FOUP-02",
+        "queue_time_hr": 2.0,
+        "process_time_min": 32.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M011",
+        "event_date": "2026-05-04",
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "wafer_id": "W1003-01",
+        "step_id": "ETCH",
+        "step_name": "Etching",
+        "tool_id": "ETCH-02",
+        "tool_group": "ETCH",
+        "foup_id": "FOUP-03",
+        "queue_time_hr": 3.5,
+        "process_time_min": 36.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M012",
+        "event_date": "2026-05-04",
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "wafer_id": "W1003-02",
+        "step_id": "ETCH",
+        "step_name": "Etching",
+        "tool_id": "ETCH-02",
+        "tool_group": "ETCH",
+        "foup_id": "FOUP-03",
+        "queue_time_hr": 4.5,
+        "process_time_min": 37.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M013",
+        "event_date": "2026-05-03",
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "wafer_id": "W1001-01",
+        "step_id": "CVD",
+        "step_name": "Deposition",
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "foup_id": "FOUP-01",
+        "queue_time_hr": 1.0,
+        "process_time_min": 48.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M014",
+        "event_date": "2026-05-03",
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "wafer_id": "W1001-02",
+        "step_id": "CVD",
+        "step_name": "Deposition",
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "foup_id": "FOUP-01",
+        "queue_time_hr": 1.0,
+        "process_time_min": 49.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M015",
+        "event_date": "2026-05-04",
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "wafer_id": "W1002-01",
+        "step_id": "CVD",
+        "step_name": "Deposition",
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "foup_id": "FOUP-02",
+        "queue_time_hr": 1.5,
+        "process_time_min": 50.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M016",
+        "event_date": "2026-05-04",
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "wafer_id": "W1002-02",
+        "step_id": "CVD",
+        "step_name": "Deposition",
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "foup_id": "FOUP-02",
+        "queue_time_hr": 2.0,
+        "process_time_min": 51.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M017",
+        "event_date": "2026-05-05",
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "wafer_id": "W1003-01",
+        "step_id": "CVD",
+        "step_name": "Deposition",
+        "tool_id": "CVD-02",
+        "tool_group": "CVD",
+        "foup_id": "FOUP-02",
+        "queue_time_hr": 3.0,
+        "process_time_min": 55.0,
+        "move_count": 1,
+        "rework_flag": 0
+      },
+      {
+        "move_id": "M018",
+        "event_date": "2026-05-05",
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "wafer_id": "W1003-02",
+        "step_id": "CVD",
+        "step_name": "Deposition",
+        "tool_id": "CVD-02",
+        "tool_group": "CVD",
+        "foup_id": "FOUP-02",
+        "queue_time_hr": 3.5,
+        "process_time_min": 56.0,
+        "move_count": 1,
+        "rework_flag": 0
+      }
+    ]
+  }
+}

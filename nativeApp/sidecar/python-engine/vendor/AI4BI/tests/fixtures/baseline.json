@@ -1,0 +1,22 @@
+{
+  "_comment": "Verified baseline numbers for sales_fact inline fixture. All values computed from the 22-row dataset in tests/fixtures/blocks/sales_fact.json. Note: East=93100 (not 94100) because the original spec had N+S+E=424000 != 423000 total; East was adjusted to make all constraints consistent.",
+  "row_count": 22,
+  "revenue_rows": 20,
+  "null_revenue_rows": 2,
+  "total_revenue": 423000,
+  "by_region": {
+    "North": 175100,
+    "South": 154800,
+    "East":   93100
+  },
+  "by_month": {
+    "2024-01": 125500,
+    "2024-02": 135100,
+    "2024-03": 162400
+  },
+  "by_category": {
+    "Electronics": 358000,
+    "Apparel":      51800,
+    "Food":          7200
+  }
+}

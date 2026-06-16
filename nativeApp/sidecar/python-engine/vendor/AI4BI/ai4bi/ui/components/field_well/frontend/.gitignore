@@ -1,0 +1,9 @@
+# Dependencies (80MB+) — reinstall with `npm install`, never commit.
+node_modules/
+
+# Build caches
+.vite/
+*.tsbuildinfo
+
+# NOTE: dist/ IS committed on purpose so the app renders the component without
+# requiring a Node build on every machine. Rebuild with `npm run build`.

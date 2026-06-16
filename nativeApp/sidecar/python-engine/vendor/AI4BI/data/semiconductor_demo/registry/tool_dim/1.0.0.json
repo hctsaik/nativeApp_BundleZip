@@ -1,0 +1,89 @@
+{
+  "block_id": "tool_dim",
+  "block_type": "dimension",
+  "grain": "tool_id",
+  "version": "1.0.0",
+  "description": "Semiconductor process tool dimension.",
+  "block_lifecycle": "validated",
+  "primary_keys": [
+    "tool_id"
+  ],
+  "columns": [
+    {
+      "name": "tool_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "tool_group",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "area",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "vendor",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    }
+  ],
+  "metrics": [],
+  "relationships": [],
+  "policy": {
+    "data_classification": "internal",
+    "row_filter_expr": null,
+    "allowed_roles": []
+  },
+  "data_source": {
+    "source_type": "inline",
+    "records": [
+      {
+        "tool_id": "PHOTO-01",
+        "tool_group": "PHOTO",
+        "area": "LITHO",
+        "vendor": "DemoVendor-A"
+      },
+      {
+        "tool_id": "PHOTO-02",
+        "tool_group": "PHOTO",
+        "area": "LITHO",
+        "vendor": "DemoVendor-A"
+      },
+      {
+        "tool_id": "ETCH-01",
+        "tool_group": "ETCH",
+        "area": "ETCH",
+        "vendor": "DemoVendor-B"
+      },
+      {
+        "tool_id": "ETCH-02",
+        "tool_group": "ETCH",
+        "area": "ETCH",
+        "vendor": "DemoVendor-B"
+      },
+      {
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "area": "THIN_FILM",
+        "vendor": "DemoVendor-C"
+      },
+      {
+        "tool_id": "CVD-02",
+        "tool_group": "CVD",
+        "area": "THIN_FILM",
+        "vendor": "DemoVendor-C"
+      }
+    ]
+  }
+}

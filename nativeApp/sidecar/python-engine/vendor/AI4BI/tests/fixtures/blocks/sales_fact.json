@@ -1,0 +1,126 @@
+{
+  "block_id": "sales_fact",
+  "block_type": "fact",
+  "grain": "order_id",
+  "version": "1.0.0",
+  "description": "Order-level sales fact table. One row per sales order line. Contains intentional null/zero/orphan rows for robustness testing.",
+  "block_lifecycle": "validated",
+  "primary_keys": ["order_id"],
+  "columns": [
+    {
+      "name": "order_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": "Unique order identifier"
+    },
+    {
+      "name": "order_date",
+      "data_type": "date",
+      "pii_level": "none",
+      "nullable": false,
+      "description": "Date the order was placed (YYYY-MM-DD)"
+    },
+    {
+      "name": "region",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": true,
+      "description": "Sales region: North, South, East; null for unrouted orders"
+    },
+    {
+      "name": "product_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": true,
+      "description": "FK to product_dim; null for orphan rows"
+    },
+    {
+      "name": "category",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": true,
+      "description": "Product category: Electronics, Apparel, Food; null for uncategorised rows"
+    },
+    {
+      "name": "revenue",
+      "data_type": "float",
+      "pii_level": "none",
+      "nullable": true,
+      "description": "Gross revenue in USD; null when order is voided/orphaned"
+    },
+    {
+      "name": "cost",
+      "data_type": "float",
+      "pii_level": "none",
+      "nullable": true,
+      "description": "Cost of goods sold in USD; null when revenue is null"
+    },
+    {
+      "name": "quantity",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": "Number of units ordered (0 for cancelled lines)"
+    }
+  ],
+  "metrics": [
+    {
+      "name": "revenue",
+      "formula": "SUM(revenue)",
+      "disaggregation_method": "sum",
+      "unit": "USD",
+      "description": "Total gross revenue; NULL rows excluded by SUM semantics"
+    },
+    {
+      "name": "gross_profit",
+      "formula": "SUM(revenue - cost)",
+      "disaggregation_method": "sum",
+      "unit": "USD",
+      "description": "Revenue minus cost of goods sold; computed row-wise then aggregated"
+    }
+  ],
+  "relationships": [
+    {
+      "target_block_id": "product_dim",
+      "allowed_join_keys": ["product_id"],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "Left join to product dimension on product_id; many-to-one relationship, no fanout risk"
+    }
+  ],
+  "policy": {
+    "data_classification": "internal",
+    "row_filter_expr": null,
+    "allowed_roles": ["analyst", "manager", "data_admin"]
+  },
+  "data_source": {
+    "source_type": "inline",
+    "records": [
+      {"order_id": "O001", "order_date": "2024-01-05", "region": "North",  "product_id": "P001", "category": "Electronics", "revenue": 32000, "cost": 22000, "quantity": 2},
+      {"order_id": "O002", "order_date": "2024-01-12", "region": "South",  "product_id": "P002", "category": "Electronics", "revenue": 45000, "cost": 31000, "quantity": 3},
+      {"order_id": "O003", "order_date": "2024-01-18", "region": "North",  "product_id": "P003", "category": "Apparel",     "revenue": 12000, "cost": 7000,  "quantity": 5},
+      {"order_id": "O004", "order_date": "2024-01-22", "region": "East",   "product_id": "P001", "category": "Electronics", "revenue": 28000, "cost": 19000, "quantity": 2},
+      {"order_id": "O005", "order_date": "2024-01-28", "region": "South",  "product_id": "P004", "category": "Food",        "revenue":  4200, "cost":  2800, "quantity": 10},
+      {"order_id": "O006", "order_date": "2024-01-30", "region": "North",  "product_id": "P002", "category": "Electronics", "revenue":  4300, "cost":  3000, "quantity": 1},
+
+      {"order_id": "O007", "order_date": "2024-02-03", "region": "North",  "product_id": "P001", "category": "Electronics", "revenue": 48000, "cost": 33000, "quantity": 3},
+      {"order_id": "O008", "order_date": "2024-02-09", "region": "South",  "product_id": "P003", "category": "Apparel",     "revenue": 15800, "cost":  9500, "quantity": 6},
+      {"order_id": "O009", "order_date": "2024-02-14", "region": "East",   "product_id": "P001", "category": "Electronics", "revenue": 36000, "cost": 25000, "quantity": 2},
+      {"order_id": "O010", "order_date": "2024-02-19", "region": "South",  "product_id": "P004", "category": "Food",        "revenue":  3000, "cost":  2000, "quantity": 8},
+      {"order_id": "O011", "order_date": "2024-02-23", "region": "North",  "product_id": "P002", "category": "Electronics", "revenue": 32300, "cost": 22000, "quantity": 2},
+      {"order_id": "O012", "order_date": "2024-02-27", "region": null,     "product_id": null,   "category": null,          "revenue": null,  "cost": null,  "quantity": 1},
+
+      {"order_id": "O013", "order_date": "2024-03-04", "region": "North",  "product_id": "P001", "category": "Electronics", "revenue": 25000, "cost": 17000, "quantity": 2},
+      {"order_id": "O014", "order_date": "2024-03-08", "region": "South",  "product_id": "P002", "category": "Electronics", "revenue": 80800, "cost": 55000, "quantity": 5},
+      {"order_id": "O015", "order_date": "2024-03-12", "region": "East",   "product_id": "P003", "category": "Apparel",     "revenue": 24000, "cost": 14500, "quantity": 8},
+      {"order_id": "O016", "order_date": "2024-03-16", "region": "North",  "product_id": "P001", "category": "Electronics", "revenue": 12500, "cost":  8600, "quantity": 1},
+      {"order_id": "O017", "order_date": "2024-03-20", "region": "South",  "product_id": "P004", "category": "Food",        "revenue":     0, "cost":     0, "quantity": 0},
+      {"order_id": "O018", "order_date": "2024-03-22", "region": "East",   "product_id": "P002", "category": "Electronics", "revenue":  5100, "cost":  3500, "quantity": 1},
+      {"order_id": "O019", "order_date": "2024-03-25", "region": "South",  "product_id": "P003", "category": "Apparel",     "revenue":     0, "cost":     0, "quantity": 0},
+      {"order_id": "O020", "order_date": "2024-03-28", "region": "North",  "product_id": "P001", "category": "Electronics", "revenue":  9000, "cost":  6200, "quantity": 1},
+      {"order_id": "O021", "order_date": "2024-03-30", "region": "South",  "product_id": null,   "category": null,          "revenue":  6000, "cost":  4000, "quantity": 1},
+      {"order_id": "O022", "order_date": "2024-03-31", "region": null,     "product_id": null,   "category": null,          "revenue": null,  "cost": null,  "quantity": 1}
+    ]
+  }
+}

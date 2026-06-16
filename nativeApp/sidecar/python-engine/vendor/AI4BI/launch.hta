@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>AI4BI 啟動器</title>
+<hta:application
+    id="ai4biLauncher"
+    applicationname="AI4BI Launcher"
+    border="thin"
+    borderstyle="normal"
+    caption="yes"
+    maximizebutton="no"
+    minimizebutton="yes"
+    showintaskbar="yes"
+    singleinstance="yes"
+    scroll="no"
+    windowstate="normal" />
+<style>
+    body {
+        font-family: "Segoe UI", "Microsoft JhengHei", sans-serif;
+        background: #1e1e2e;
+        color: #e0e0e0;
+        margin: 0;
+        padding: 24px;
+        width: 460px;
+    }
+    h1 { font-size: 20px; margin: 0 0 4px 0; color: #89b4fa; }
+    .sub { font-size: 12px; color: #888; margin-bottom: 20px; }
+    label { display: block; font-size: 13px; margin: 14px 0 4px 0; color: #cdd6f4; }
+    input[type=text], input[type=password] {
+        width: 100%; box-sizing: border-box; padding: 7px 9px;
+        background: #313244; border: 1px solid #45475a; border-radius: 5px;
+        color: #fff; font-size: 13px;
+    }
+    .row { display: flex; align-items: center; margin: 14px 0 4px 0; }
+    .row input[type=checkbox] { width: 16px; height: 16px; margin-right: 8px; }
+    .row label { margin: 0; }
+    .btns { margin-top: 22px; display: flex; gap: 10px; }
+    button {
+        flex: 1; padding: 11px 0; font-size: 14px; font-weight: 600;
+        border: none; border-radius: 6px; cursor: pointer;
+    }
+    .primary { background: #89b4fa; color: #1e1e2e; }
+    .secondary { background: #45475a; color: #fff; }
+    .stop { background: #f38ba8; color: #1e1e2e; }
+    .hint { font-size: 11px; color: #6c7086; margin-top: 16px; line-height: 1.5; }
+    .hidden { display: none; }
+</style>
+<script language="JScript">
+// ===========================================================================
+// 設定（如想固定預設值，直接改這裡）
+// ===========================================================================
+var PROJECT_DIR  = "c:\\code\\claude\\AI4BI";
+var APP_PATH     = "ai4bi/ui/app.py";
+var WIN_TITLE    = "AI4BI-Streamlit";   // 用來辨識/關閉啟動的視窗
+// 想免輸入金鑰可填在這（注意：等於把金鑰存在純文字檔，請自行評估風險）
+var DEFAULT_API_KEY = "";
+// ===========================================================================
+
+window.resizeTo(508, 600);
+
+function init() {
+    document.getElementById("apikey").value = DEFAULT_API_KEY;
+    toggleLLM();
+}
+
+function toggleLLM() {
+    var on = document.getElementById("llmMode").checked;
+    document.getElementById("llmFields").className = on ? "" : "hidden";
+}
+
+function startApp() {
+    var shell = new ActiveXObject("WScript.Shell");
+    var port  = document.getElementById("port").value || "8502";
+    var llmOn = document.getElementById("llmMode").checked;
+
+    var env = "";
+    if (llmOn) {
+        var key   = document.getElementById("apikey").value;
+        var model = document.getElementById("model").value;
+        env += "set LLM_MODE=anthropic&& ";
+        if (key)   env += "set ANTHROPIC_API_KEY=" + key + "&& ";
+        if (model) env += "set ANTHROPIC_MODEL=" + model + "&& ";
+    } else {
+        env += "set LLM_MODE=mock&& ";
+    }
+
+    var cmd = 'cmd /k "title ' + WIN_TITLE
+            + '&& cd /d ' + PROJECT_DIR
+            + '&& ' + env
+            + 'python -m streamlit run ' + APP_PATH
+            + ' --server.port ' + port + '"';
+
+    shell.Run(cmd, 1, false);
+}
+
+function openBrowser() {
+    var shell = new ActiveXObject("WScript.Shell");
+    var port  = document.getElementById("port").value || "8502";
+    shell.Run("http://localhost:" + port, 1, false);
+}
+
+function stopApp() {
+    var shell = new ActiveXObject("WScript.Shell");
+    // 關閉標題為 WIN_TITLE 的 cmd 視窗（連同底下的 python/streamlit）
+    shell.Run('cmd /c taskkill /FI "WINDOWTITLE eq ' + WIN_TITLE + '*" /T /F', 0, false);
+}
+</script>
+</head>
+<body onload="init()">
+    <h1>AI4BI 啟動器</h1>
+    <div class="sub">Streamlit BI Demo &middot; 雙擊即可啟動</div>
+
+    <label for="port">Port</label>
+    <input type="text" id="port" value="8502" />
+
+    <div class="row">
+        <input type="checkbox" id="llmMode" onclick="toggleLLM()" />
+        <label for="llmMode">啟用 Claude API（LLM 意圖分類模式）</label>
+    </div>
+
+    <div id="llmFields">
+        <label for="apikey">ANTHROPIC_API_KEY</label>
+        <input type="password" id="apikey" placeholder="sk-ant-..." />
+        <label for="model">ANTHROPIC_MODEL（可留空用預設 haiku）</label>
+        <input type="text" id="model" placeholder="claude-haiku-4-5-20251001" />
+    </div>
+
+    <div class="btns">
+        <button class="primary" onclick="startApp()">▶ 啟動 GUI</button>
+        <button class="secondary" onclick="openBrowser()">🌐 開啟瀏覽器</button>
+    </div>
+    <div class="btns">
+        <button class="stop" onclick="stopApp()">■ 停止</button>
+    </div>
+
+    <div class="hint">
+        啟動後會跳出一個 cmd 視窗顯示 Streamlit 日誌（首次啟動需數秒）。<br />
+        待日誌出現 <b>Local URL</b> 後，按「開啟瀏覽器」即可。<br />
+        「停止」會關閉該啟動視窗與其下的 streamlit 程序。
+    </div>
+</body>
+</html>

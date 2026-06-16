@@ -1,0 +1,24 @@
+{
+  "package_id": "semiconductor_process_demo",
+  "expected": {
+    "total_lots": 3,
+    "total_wafers": 6,
+    "total_process_moves": 18,
+    "total_yield_results": 6,
+    "failed_wafers": 2,
+    "overall_weighted_yield_pct": 94.55,
+    "move_count_by_step": {
+      "PHOTO": 6,
+      "ETCH": 6,
+      "CVD": 6
+    },
+    "avg_queue_time_hr_by_etch_tool": {
+      "ETCH-01": 2.0,
+      "ETCH-02": 4.0
+    },
+    "weighted_yield_pct_by_product_family": {
+      "Logic-A": 96.25,
+      "Logic-B": 91.15
+    }
+  }
+}

@@ -1,0 +1,21 @@
+# AI4BI app chrome — startup theme (Round 164).
+# This sets the colors Streamlit uses before the first script run. The live
+# theme picker (sidebar 🎨 外觀主題) re-skins on top of this via injected CSS,
+# so changing themes at runtime does not require an app restart. Keep these in
+# sync with the DEFAULT_THEME (executive) in ai4bi/ui/theme.py.
+[theme]
+base = "light"
+primaryColor = "#1F4E79"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F4F7FB"
+textColor = "#1B2A38"
+font = "sans serif"
+# Round 165: table headers. Streamlit renders dataframe header text in a faded
+# color by design, so it looked too light. Give the header row a distinct band
+# + visible cell borders so columns read as a proper, professional header.
+dataframeHeaderBackgroundColor = "#DCE4EE"
+dataframeBorderColor = "#C4D0DE"
+# Round 166: the header text is also drawn at NORMAL weight (fontWeights.normal)
+# in a faded color, so on the band it still read faint. Raise the base font
+# weight to medium (500) so header (and body) text is crisper and more legible.
+baseFontWeight = 500

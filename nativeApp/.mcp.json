@@ -1,0 +1,30 @@
+{
+  "mcpServers": {
+    "platform": {
+      "command": "python",
+      "args": ["-m", "platform_mcp.server"],
+      "env": {
+        "PYTHONPATH": "C:/code/claude/nativeApp/mcp",
+        "CIM_SIDECAR_PORT": "8765"
+      }
+    },
+    "cim-gui": {
+      "command": "python",
+      "args": ["-m", "cim_gui_mcp.server"],
+      "env": {
+        "PYTHONPATH": "C:/code/claude/nativeApp/mcp",
+        "CIM_SIDECAR_PORT": "8765",
+        "CIM_MCP_HEADLESS": "1",
+        "CIM_MCP_TIMEOUT": "10000"
+      }
+    },
+    "annotation": {
+      "command": "python",
+      "args": ["-m", "plugins.labeling.mcp.server"],
+      "env": {
+        "PYTHONPATH": "C:/code/claude/nativeApp/sidecar/python-engine",
+        "ANNOTATION_WORKSPACE": "C:/code/claude/nativeApp/apps/host-electron/logs/annotation_workspace"
+      }
+    }
+  }
+}

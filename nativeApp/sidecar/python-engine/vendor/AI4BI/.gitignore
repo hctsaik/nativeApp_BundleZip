@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+.venv/
+venv/
+.streamlit/secrets.toml
+data/semiconductor_demo/draft_reports/
+published/
+outbox/
+
+# Large media — videos live as GitHub Release assets, never in git history
+# (see docs/media/README.md). Keeps clones lean and avoids GitHub's size limits.
+*.mp4
+*.mov
+*.webm

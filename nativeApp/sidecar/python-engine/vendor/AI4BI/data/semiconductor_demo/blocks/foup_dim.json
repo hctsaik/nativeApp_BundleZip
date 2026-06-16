@@ -1,0 +1,20 @@
+{
+  "block_id": "foup_dim",
+  "block_type": "dimension",
+  "grain": "foup_id",
+  "version": "1.0.0",
+  "description": "FOUP carrier dimension; assignments must be interpreted at move event time.",
+  "block_lifecycle": "validated",
+  "primary_keys": ["foup_id"],
+  "columns": [
+    {"name": "foup_id", "data_type": "string", "nullable": false},
+    {"name": "capacity", "data_type": "integer", "nullable": false},
+    {"name": "carrier_type", "data_type": "string", "nullable": false},
+    {"name": "clean_status", "data_type": "string", "nullable": false}
+  ],
+  "data_source": {"source_type": "inline", "records": [
+    {"foup_id": "FOUP-01", "capacity": 25, "carrier_type": "300mm", "clean_status": "Released"},
+    {"foup_id": "FOUP-02", "capacity": 25, "carrier_type": "300mm", "clean_status": "Released"},
+    {"foup_id": "FOUP-03", "capacity": 25, "carrier_type": "300mm", "clean_status": "Released"}
+  ]}
+}

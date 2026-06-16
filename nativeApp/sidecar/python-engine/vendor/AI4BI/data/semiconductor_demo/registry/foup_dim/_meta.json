@@ -1,0 +1,17 @@
+{
+  "block_id": "foup_dim",
+  "certified_latest": "1.0.0",
+  "certified_latest_updated_at": "2026-05-27T23:22:33.758082+00:00",
+  "certified_latest_updated_by": "AUTO_CERTIFY",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "lifecycle": "certified",
+      "registered_at": "2026-05-27T23:22:33.755845+00:00",
+      "certified_at": "2026-05-27T23:22:33.758082+00:00",
+      "certified_by": "AUTO_CERTIFY",
+      "change_type": null,
+      "notes": null
+    }
+  ]
+}

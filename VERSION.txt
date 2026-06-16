@@ -2,5 +2,5 @@
 contents    : nativeApp + AI4BI + LV + Labeling (pre-assembled source bundle)
 source repo : github.com/hctsaik/nativeApp @ ebebe15
 source date : 2026-06-17
-built       : 2026-06-17 02:14
+built       : 2026-06-17 02:24
 built by    : scripts/win/publish-bundle.ps1

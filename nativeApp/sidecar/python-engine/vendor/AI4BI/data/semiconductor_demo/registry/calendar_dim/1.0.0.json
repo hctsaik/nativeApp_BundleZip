@@ -1,0 +1,89 @@
+{
+  "block_id": "calendar_dim",
+  "block_type": "date_dimension",
+  "grain": "date_id",
+  "version": "1.0.0",
+  "description": "Calendar dimension for semiconductor demo trends.",
+  "block_lifecycle": "validated",
+  "primary_keys": [
+    "date_id"
+  ],
+  "columns": [
+    {
+      "name": "date_id",
+      "data_type": "date",
+      "pii_level": "none",
+      "nullable": false,
+      "description": "Calendar date"
+    },
+    {
+      "name": "year",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "month",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "week",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    }
+  ],
+  "metrics": [],
+  "relationships": [],
+  "policy": {
+    "data_classification": "internal",
+    "row_filter_expr": null,
+    "allowed_roles": []
+  },
+  "data_source": {
+    "source_type": "inline",
+    "records": [
+      {
+        "date_id": "2026-05-01",
+        "year": 2026,
+        "month": "2026-05",
+        "week": "2026-W18"
+      },
+      {
+        "date_id": "2026-05-02",
+        "year": 2026,
+        "month": "2026-05",
+        "week": "2026-W18"
+      },
+      {
+        "date_id": "2026-05-03",
+        "year": 2026,
+        "month": "2026-05",
+        "week": "2026-W18"
+      },
+      {
+        "date_id": "2026-05-04",
+        "year": 2026,
+        "month": "2026-05",
+        "week": "2026-W19"
+      },
+      {
+        "date_id": "2026-05-05",
+        "year": 2026,
+        "month": "2026-05",
+        "week": "2026-W19"
+      },
+      {
+        "date_id": "2026-05-06",
+        "year": 2026,
+        "month": "2026-05",
+        "week": "2026-W19"
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "block_id": "process_step_dim",
+  "block_type": "dimension",
+  "grain": "step_id",
+  "version": "1.0.0",
+  "description": "Route step dimension for a simplified three-step process.",
+  "block_lifecycle": "validated",
+  "primary_keys": ["step_id"],
+  "columns": [
+    {"name": "step_id", "data_type": "string", "nullable": false},
+    {"name": "step_sequence", "data_type": "integer", "nullable": false},
+    {"name": "step_name", "data_type": "string", "nullable": false},
+    {"name": "required_tool_group", "data_type": "string", "nullable": false}
+  ],
+  "data_source": {"source_type": "inline", "records": [
+    {"step_id": "PHOTO", "step_sequence": 10, "step_name": "Lithography", "required_tool_group": "PHOTO"},
+    {"step_id": "ETCH", "step_sequence": 20, "step_name": "Etching", "required_tool_group": "ETCH"},
+    {"step_id": "CVD", "step_sequence": 30, "step_name": "Deposition", "required_tool_group": "CVD"}
+  ]}
+}

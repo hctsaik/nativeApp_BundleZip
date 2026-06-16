@@ -1,0 +1,99 @@
+{
+  "block_id": "wafer_dim",
+  "block_type": "dimension",
+  "grain": "wafer_id",
+  "version": "1.0.0",
+  "description": "Wafer master dimension with one wafer assigned to one lot for the demo.",
+  "block_lifecycle": "validated",
+  "primary_keys": [
+    "wafer_id"
+  ],
+  "columns": [
+    {
+      "name": "wafer_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "lot_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "wafer_no",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "diameter_mm",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    }
+  ],
+  "metrics": [],
+  "relationships": [
+    {
+      "target_block_id": "lot_dim",
+      "allowed_join_keys": [
+        "lot_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "Each wafer belongs to one manufacturing lot in this demo."
+    }
+  ],
+  "policy": {
+    "data_classification": "internal",
+    "row_filter_expr": null,
+    "allowed_roles": []
+  },
+  "data_source": {
+    "source_type": "inline",
+    "records": [
+      {
+        "wafer_id": "W1001-01",
+        "lot_id": "LOT-1001",
+        "wafer_no": 1,
+        "diameter_mm": 300
+      },
+      {
+        "wafer_id": "W1001-02",
+        "lot_id": "LOT-1001",
+        "wafer_no": 2,
+        "diameter_mm": 300
+      },
+      {
+        "wafer_id": "W1002-01",
+        "lot_id": "LOT-1002",
+        "wafer_no": 1,
+        "diameter_mm": 300
+      },
+      {
+        "wafer_id": "W1002-02",
+        "lot_id": "LOT-1002",
+        "wafer_no": 2,
+        "diameter_mm": 300
+      },
+      {
+        "wafer_id": "W1003-01",
+        "lot_id": "LOT-1003",
+        "wafer_no": 1,
+        "diameter_mm": 300
+      },
+      {
+        "wafer_id": "W1003-02",
+        "lot_id": "LOT-1003",
+        "wafer_no": 2,
+        "diameter_mm": 300
+      }
+    ]
+  }
+}

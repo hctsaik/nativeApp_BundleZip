@@ -1,0 +1,34 @@
+{
+  "_comment": "Round 007 VisualQuerySpec fixture — uses block_refs (list[BlockRef]) instead of the deprecated block_ids (list[str]). Mirrors the sales_fact block.",
+  "spec_id": "sales_kpi_total_revenue",
+  "block_refs": [
+    {
+      "block_id": "sales_fact",
+      "pinned_version": null,
+      "pin_reason": null,
+      "pinned_at": null
+    }
+  ],
+  "metrics": [
+    {
+      "block_id": "sales_fact",
+      "metric_name": "revenue",
+      "alias": "Total Revenue",
+      "agg_override": null
+    }
+  ],
+  "dimensions": [],
+  "filters": [
+    {
+      "block_id": "sales_fact",
+      "column_name": "region",
+      "operator": "in",
+      "value": ["North", "South", "East"],
+      "inherit_global_filter": true
+    }
+  ],
+  "sort": [],
+  "limit": null,
+  "data_version": "v1",
+  "inherit_global_filter": true
+}

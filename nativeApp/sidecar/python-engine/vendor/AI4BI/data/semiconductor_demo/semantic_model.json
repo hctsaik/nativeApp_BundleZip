@@ -1,0 +1,61 @@
+{
+  "model_id": "semiconductor_process_demo",
+  "version": "1.0.0",
+  "label": "Semiconductor Process Operations Demo",
+  "description": "Certified demo relationships for wafer movement and final wafer measurement analysis.",
+  "runtime_support": {
+    "current_executor": "single_fact_with_certified_direct_dimensions",
+    "multi_block_relationships": "direct_certified_many_to_one_dimensions_only",
+    "ratio_metrics": "must_be_recomputed_from_additive_inputs"
+  },
+  "blocks": [
+    "calendar_dim",
+    "lot_dim",
+    "wafer_dim",
+    "tool_dim",
+    "process_step_dim",
+    "foup_dim",
+    "process_move_fact",
+    "wafer_yield_fact"
+  ],
+  "relationships": [
+    {"relationship_id": "move_to_calendar", "from_block": "process_move_fact", "to_block": "calendar_dim", "keys": [{"from": "event_date", "to": "date_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "move_to_wafer", "from_block": "process_move_fact", "to_block": "wafer_dim", "keys": [{"from": "wafer_id", "to": "wafer_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "move_to_lot", "from_block": "process_move_fact", "to_block": "lot_dim", "keys": [{"from": "lot_id", "to": "lot_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "move_to_tool", "from_block": "process_move_fact", "to_block": "tool_dim", "keys": [{"from": "tool_id", "to": "tool_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "move_to_step", "from_block": "process_move_fact", "to_block": "process_step_dim", "keys": [{"from": "step_id", "to": "step_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "move_to_foup", "from_block": "process_move_fact", "to_block": "foup_dim", "keys": [{"from": "foup_id", "to": "foup_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "yield_to_calendar", "from_block": "wafer_yield_fact", "to_block": "calendar_dim", "keys": [{"from": "test_date", "to": "date_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "yield_to_wafer", "from_block": "wafer_yield_fact", "to_block": "wafer_dim", "keys": [{"from": "wafer_id", "to": "wafer_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "yield_to_lot", "from_block": "wafer_yield_fact", "to_block": "lot_dim", "keys": [{"from": "lot_id", "to": "lot_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "yield_to_tool", "from_block": "wafer_yield_fact", "to_block": "tool_dim", "keys": [{"from": "tool_id", "to": "tool_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"},
+    {"relationship_id": "yield_to_step", "from_block": "wafer_yield_fact", "to_block": "process_step_dim", "keys": [{"from": "step_id", "to": "step_id"}], "cardinality": "many_to_one", "join_type": "left", "status": "certified"}
+  ],
+  "metrics": [
+    {"metric_id": "move_count", "owner_block": "process_move_fact", "formula": "SUM(move_count)", "aggregation_behavior": "additive"},
+    {"metric_id": "avg_queue_time_hr", "owner_block": "process_move_fact", "formula": "AVG(queue_time_hr)", "aggregation_behavior": "recompute"},
+    {"metric_id": "avg_process_time_min", "owner_block": "process_move_fact", "formula": "AVG(process_time_min)", "aggregation_behavior": "recompute"},
+    {"metric_id": "weighted_yield_pct", "owner_block": "wafer_yield_fact", "formula": "SUM(good_die) / SUM(tested_die) * 100", "aggregation_behavior": "ratio_recompute"},
+    {"metric_id": "failed_wafer_count", "owner_block": "wafer_yield_fact", "formula": "SUM(failed_wafer_count)", "aggregation_behavior": "additive"}
+  ],
+  "composition_rules": [
+    {
+      "composition_id": "queue_time_vs_yield_by_lot",
+      "input_blocks": ["process_move_fact", "wafer_yield_fact"],
+      "common_grain": ["lot_id", "step_id"],
+      "rule": "Aggregate each fact independently before joining summarized results.",
+      "status": "proposal",
+      "prohibited_detail_join": true
+    }
+  ],
+  "prohibited_paths": [
+    {
+      "blocks": ["process_move_fact", "wafer_yield_fact"],
+      "reason": "A wafer has multiple move rows but one final yield row; detail join duplicates quality metrics."
+    },
+    {
+      "blocks": ["lot_dim", "foup_dim"],
+      "reason": "FOUP assignment varies by move event and is not a permanent lot relationship."
+    }
+  ]
+}

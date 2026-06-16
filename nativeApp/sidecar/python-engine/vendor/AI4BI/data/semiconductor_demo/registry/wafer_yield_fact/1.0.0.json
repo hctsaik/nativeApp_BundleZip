@@ -1,0 +1,285 @@
+{
+  "block_id": "wafer_yield_fact",
+  "block_type": "fact",
+  "grain": "one final CVD yield result per wafer, uniquely identified by yield_event_id",
+  "version": "1.0.0",
+  "description": "Final wafer yield fact with die-count numerators and denominators. Aggregated yield must be recomputed from die counts.",
+  "block_lifecycle": "validated",
+  "primary_keys": [
+    "yield_event_id"
+  ],
+  "columns": [
+    {
+      "name": "yield_event_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "test_date",
+      "data_type": "date",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "lot_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "product_family",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "wafer_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "step_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "tool_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "tool_group",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "tested_die",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "good_die",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "defect_die",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "yield_pct",
+      "data_type": "float",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "failed_wafer_count",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    }
+  ],
+  "metrics": [
+    {
+      "name": "tested_die",
+      "formula": "SUM(tested_die)",
+      "disaggregation_method": "sum",
+      "unit": "dies",
+      "description": null
+    },
+    {
+      "name": "good_die",
+      "formula": "SUM(good_die)",
+      "disaggregation_method": "sum",
+      "unit": "dies",
+      "description": null
+    },
+    {
+      "name": "defect_die",
+      "formula": "SUM(defect_die)",
+      "disaggregation_method": "sum",
+      "unit": "dies",
+      "description": null
+    },
+    {
+      "name": "failed_wafer_count",
+      "formula": "SUM(failed_wafer_count)",
+      "disaggregation_method": "sum",
+      "unit": "wafers",
+      "description": null
+    }
+  ],
+  "relationships": [
+    {
+      "target_block_id": "calendar_dim",
+      "allowed_join_keys": [
+        "test_date"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one date lookup"
+    },
+    {
+      "target_block_id": "lot_dim",
+      "allowed_join_keys": [
+        "lot_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one lot lookup"
+    },
+    {
+      "target_block_id": "wafer_dim",
+      "allowed_join_keys": [
+        "wafer_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one wafer lookup"
+    },
+    {
+      "target_block_id": "tool_dim",
+      "allowed_join_keys": [
+        "tool_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one source process tool lookup"
+    },
+    {
+      "target_block_id": "process_step_dim",
+      "allowed_join_keys": [
+        "step_id"
+      ],
+      "join_type": "left",
+      "fanout_risk": "LOW",
+      "description": "many_to_one yield checkpoint step lookup"
+    }
+  ],
+  "policy": {
+    "data_classification": "internal",
+    "row_filter_expr": null,
+    "allowed_roles": [
+      "engineer",
+      "manager",
+      "data_admin"
+    ]
+  },
+  "data_source": {
+    "source_type": "inline",
+    "records": [
+      {
+        "yield_event_id": "Y001",
+        "test_date": "2026-05-04",
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "wafer_id": "W1001-01",
+        "step_id": "CVD",
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "tested_die": 1000,
+        "good_die": 980,
+        "defect_die": 20,
+        "yield_pct": 98.0,
+        "failed_wafer_count": 0
+      },
+      {
+        "yield_event_id": "Y002",
+        "test_date": "2026-05-04",
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "wafer_id": "W1001-02",
+        "step_id": "CVD",
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "tested_die": 1000,
+        "good_die": 970,
+        "defect_die": 30,
+        "yield_pct": 97.0,
+        "failed_wafer_count": 0
+      },
+      {
+        "yield_event_id": "Y003",
+        "test_date": "2026-05-05",
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "wafer_id": "W1002-01",
+        "step_id": "CVD",
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "tested_die": 1000,
+        "good_die": 960,
+        "defect_die": 40,
+        "yield_pct": 96.0,
+        "failed_wafer_count": 0
+      },
+      {
+        "yield_event_id": "Y004",
+        "test_date": "2026-05-05",
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "wafer_id": "W1002-02",
+        "step_id": "CVD",
+        "tool_id": "CVD-01",
+        "tool_group": "CVD",
+        "tested_die": 1000,
+        "good_die": 940,
+        "defect_die": 60,
+        "yield_pct": 94.0,
+        "failed_wafer_count": 1
+      },
+      {
+        "yield_event_id": "Y005",
+        "test_date": "2026-05-06",
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "wafer_id": "W1003-01",
+        "step_id": "CVD",
+        "tool_id": "CVD-02",
+        "tool_group": "CVD",
+        "tested_die": 1000,
+        "good_die": 925,
+        "defect_die": 75,
+        "yield_pct": 92.5,
+        "failed_wafer_count": 0
+      },
+      {
+        "yield_event_id": "Y006",
+        "test_date": "2026-05-06",
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "wafer_id": "W1003-02",
+        "step_id": "CVD",
+        "tool_id": "CVD-02",
+        "tool_group": "CVD",
+        "tested_die": 1000,
+        "good_die": 898,
+        "defect_die": 102,
+        "yield_pct": 89.8,
+        "failed_wafer_count": 1
+      }
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "block_id": "lot_dim",
+  "block_type": "dimension",
+  "grain": "lot_id",
+  "version": "1.0.0",
+  "description": "Manufacturing lot dimension. FOUP assignment is intentionally not stored here.",
+  "block_lifecycle": "validated",
+  "primary_keys": [
+    "lot_id"
+  ],
+  "columns": [
+    {
+      "name": "lot_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "product_family",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "route_id",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "priority",
+      "data_type": "string",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "start_date",
+      "data_type": "date",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    },
+    {
+      "name": "planned_wafer_count",
+      "data_type": "integer",
+      "pii_level": "none",
+      "nullable": false,
+      "description": null
+    }
+  ],
+  "metrics": [],
+  "relationships": [],
+  "policy": {
+    "data_classification": "internal",
+    "row_filter_expr": null,
+    "allowed_roles": []
+  },
+  "data_source": {
+    "source_type": "inline",
+    "records": [
+      {
+        "lot_id": "LOT-1001",
+        "product_family": "Logic-A",
+        "route_id": "R28A",
+        "priority": "Normal",
+        "start_date": "2026-05-01",
+        "planned_wafer_count": 2
+      },
+      {
+        "lot_id": "LOT-1002",
+        "product_family": "Logic-A",
+        "route_id": "R28A",
+        "priority": "Hot",
+        "start_date": "2026-05-02",
+        "planned_wafer_count": 2
+      },
+      {
+        "lot_id": "LOT-1003",
+        "product_family": "Logic-B",
+        "route_id": "R28B",
+        "priority": "Normal",
+        "start_date": "2026-05-03",
+        "planned_wafer_count": 2
+      }
+    ]
+  }
+}
