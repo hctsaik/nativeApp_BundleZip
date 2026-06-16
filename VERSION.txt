@@ -1,0 +1,6 @@
+bundle      : nativeApp-family-bundle.zip
+contents    : nativeApp + AI4BI + LV + Labeling (pre-assembled source bundle)
+source repo : github.com/hctsaik/nativeApp @ ebebe15
+source date : 2026-06-17
+built       : 2026-06-17 02:08
+built by    : scripts/win/make-source-bundle.ps1
